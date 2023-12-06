@@ -14,6 +14,18 @@ Install packages
 bun install
 ```
 
+Copy .env.example and rename to .env
+
+```bash
+cp .env.example .env
+```
+
+or use the convenience command
+
+```bash
+bun copy:env
+```
+
 Run
 
 ```bash
