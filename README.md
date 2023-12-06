@@ -15,6 +15,7 @@ bun install
 ```
 
 Run
+
 ```bash
 bun start
 ```
