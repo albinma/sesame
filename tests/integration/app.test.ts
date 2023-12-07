@@ -1,4 +1,4 @@
-import { createApp } from '@/app/routes';
+import { createApp } from '@/api';
 import { describe, expect, it } from 'bun:test';
 import request from 'supertest';
 
