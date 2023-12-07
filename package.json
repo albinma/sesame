@@ -5,6 +5,7 @@
   "scripts": {
     "start": "bun src/index.ts",
     "dev": "bun --inspect src/index.ts",
+    "test:ci": "NODE_ENV=test TZ=UTC LOG_LEVEL=debug bun test --preload ./tests/setup.ts --coverage",
     "copy:env": "cp .env.example .env",
     "format": "prettier --check --ignore-path .gitignore .",
     "format:fix": "prettier --write --ignore-path .gitignore .",
