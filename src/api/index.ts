@@ -1,8 +1,10 @@
 import { createIdentityApi } from '@/modules/identity/api';
-import express, { Express } from 'express';
+import express, { Express, json } from 'express';
 
 export const createApp = async (): Promise<Express> => {
   const app = express();
+
+  app.use(json());
 
   // default route
   app.get('/', (req, res) => {
