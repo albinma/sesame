@@ -9,7 +9,7 @@ export const createApp = async (): Promise<Express> => {
     res.status(200).end();
   });
 
-  app.use(await createIdentityApi());
+  app.use('/api/v1', await createIdentityApi());
 
   return app;
 };

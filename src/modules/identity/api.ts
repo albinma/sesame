@@ -4,7 +4,7 @@ import { Router } from 'express';
 export async function createIdentityApi(): Promise<Router> {
   const router = Router();
 
-  router.use('/auth', await createAuthenticationRouter());
+  router.use('/authentication', await createAuthenticationRouter());
 
   return router;
 }

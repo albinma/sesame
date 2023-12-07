@@ -4,7 +4,7 @@ import { Router } from 'express';
 export async function createAuthenticationRouter(): Promise<Router> {
   const router = Router();
 
-  router.get('/', $AuthenticationController.begin);
+  router.post('/begin', $AuthenticationController.begin);
 
   return router;
 }

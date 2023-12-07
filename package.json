@@ -11,6 +11,7 @@
     "format:fix": "prettier --write --ignore-path .gitignore .",
     "lint": "eslint src",
     "lint:fix": "eslint --fix src",
+    "gen:openapi": "openapi-typescript data/api-doc/v1.yml -o src/api/types/openapi.d.ts --empty-objects-unknown && prettier --write src/api/types/openapi.d.ts",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -27,6 +28,7 @@
     "eslint-plugin-prettier": "5.0.1",
     "husky": "8.0.3",
     "lint-staged": "15.2.0",
+    "openapi-typescript": "6.7.2",
     "prettier": "3.1.0",
     "prettier-plugin-organize-imports": "3.2.4",
     "supertest": "6.3.3"
