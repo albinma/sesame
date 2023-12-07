@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-  '/auth/begin': {
+  '/authentication/begin': {
     /**
      * Begins the authentication process
      * @description Begins the authentication process by providing the public address of the user. System will return a random nonce used for signature validation.
