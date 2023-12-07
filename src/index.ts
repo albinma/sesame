@@ -1,4 +1,4 @@
-import { createApp } from '@/common/initializers/app';
+import { createApp } from '@/app/routes';
 
 const app = await createApp();
 const port = Bun.env.HTTP_PORT;

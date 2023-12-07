@@ -1,18 +1,16 @@
-import { createApp } from '@/common/initializers/app';
+import { createApp } from '@/app/routes';
 import { describe, expect, it } from 'bun:test';
 import request from 'supertest';
 
-describe('app.test.ts', () => {
-  describe('GET /', () => {
-    it('should return 200 OK', async () => {
-      // arrange
-      const app = await createApp();
+describe('GET /', () => {
+  it('should return 200 OK', async () => {
+    // arrange
+    const app = await createApp();
 
-      // act
-      const response = await request(app).get('/');
+    // act
+    const response = await request(app).get('/');
 
-      // assert
-      expect(response.status).toBe(200);
-    });
+    // assert
+    expect(response.status).toBe(200);
   });
 });
