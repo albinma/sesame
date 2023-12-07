@@ -1,4 +1,4 @@
-import { createApp } from '@/global/initializers/app';
+import { createApp } from '@/common/initializers/app';
 import { describe, expect, it } from 'bun:test';
 import request from 'supertest';
 
