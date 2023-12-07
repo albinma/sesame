@@ -1,6 +1,6 @@
-import { HttpError } from '@/common/errors/http.error';
+import { ApplicationError } from '@/common/errors/application.error';
 
-export class ServiceError extends HttpError {
+export class ServiceError extends ApplicationError {
   public static CODE = 'err_service';
 
   constructor(reason: string) {

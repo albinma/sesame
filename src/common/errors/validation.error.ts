@@ -1,6 +1,6 @@
-import { HttpError } from '@/common/errors/http.error';
+import { ApplicationError } from '@/common/errors/application.error';
 
-export class ValidationError extends HttpError {
+export class ValidationError extends ApplicationError {
   public static CODE = 'err_validation';
 
   constructor(name: string, reason: string);

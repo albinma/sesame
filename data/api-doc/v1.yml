@@ -4,12 +4,12 @@ info:
   description: An API for sesame-bun
   version: 1.0.0
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:8080/api/v1
     description: Development
-  - url: https://unknown.com
+  - url: https://unknown.com/api/v1
     description: Production
 paths:
-  /auth/begin:
+  /authentication/begin:
     post:
       summary: Begins the authentication process
       description: Begins the authentication process by providing the public address of the user. System will return a random nonce used for signature validation.

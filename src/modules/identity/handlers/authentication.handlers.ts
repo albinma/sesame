@@ -1,5 +1,5 @@
 import { $AuthenticationService } from '@/api/services';
-import { ValidationError } from '@/common/errors/validation.error';
+import { ValidationError } from '@/common/errors';
 import {
   AuthenticationBeginRequest,
   AuthenticationBeginResponse,
