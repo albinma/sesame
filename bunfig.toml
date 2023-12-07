@@ -1,0 +1,7 @@
+[install]
+exact = true # install exact versions of dependencies
+
+[test]
+coverage = true # enable coverage
+coverageSkipTestFiles = true # don't include test files in coverage
+preload = ["./tests/setup.ts"] # preload setup file

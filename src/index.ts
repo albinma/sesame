@@ -1,11 +1,7 @@
-import express from 'express';
+import { createApp } from '@/global/initializers/app';
 
-const app = express();
+const app = await createApp();
 const port = Bun.env.HTTP_PORT;
-
-app.get('/', (req, res) => {
-  res.send(Bun.env.NODE_ENV);
-});
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console
