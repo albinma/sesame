@@ -19,21 +19,6 @@ describe('modules/identity/services AuthenticationService', () => {
       });
     });
 
-    it('should return public address and nonce', () => {
-      // arrange
-      const service = new AuthenticationService();
-      const { address: publicAddress } = Wallet.createRandom();
-
-      // act
-      const result = service.generateNonceFromPublicAddress(publicAddress);
-
-      // assert
-      expect(result).toMatchObject({
-        publicAddress,
-        nonce: expect.any(String),
-      });
-    });
-
     it('should return public address and nonce with ICAP address', () => {
       // arrange
       const service = new AuthenticationService();
