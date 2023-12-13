@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
-  title: sesame-bun API
-  description: An API for sesame-bun
+  title: sesame API
+  description: An API for sesame
   version: 1.0.0
 servers:
   - url: http://localhost:8080/api/v1
@@ -16,6 +16,14 @@ paths:
       tags:
         - authentication
       operationId: authenticationBegin
+      parameters:
+        - in: header
+          name: 'Authorization'
+          schema:
+            type: string
+            minLength: 1
+            #pattern: '^Basic\s(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?'
+          required: true
       requestBody:
         content:
           application/json:
@@ -135,6 +143,7 @@ components:
     PublicAddress:
       type: string
       description: The public address of the user
+      example: 0xb794f5ea0ba39494ce839613fffba74279579268
     AuthenticationBeginRequest:
       type: object
       required:

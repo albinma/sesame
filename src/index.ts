@@ -1,4 +1,4 @@
-import { createApp } from '@/api';
+import { createApp } from '@/api/api';
 
 const app = await createApp();
 const port = Bun.env.HTTP_PORT;

@@ -1,4 +1,4 @@
-import { errorHandlerMiddleware } from '@/common/middlewares/error-handler.middleware';
+import { errorHandlerMiddleware } from '@/common/middlewares';
 import { createIdentityApi } from '@/modules/identity/api';
 import express, { Express, json } from 'express';
 import { middleware as OpenApiValidatorMiddlware } from 'express-openapi-validator';

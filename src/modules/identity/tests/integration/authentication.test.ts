@@ -1,8 +1,9 @@
-import { createApp } from '@/api';
-import { ValidationProblem } from '@/common/models';
+import { createApp } from '@/api/api';
+import { Problem, ValidationProblem } from '@/common/models';
 import { AuthenticationBeginResponse } from '@/modules/identity/models/authentication.models';
+import { createTestClientBasicAuthenticationToken } from '@/modules/identity/tests/helpers';
 import { beforeAll, describe, expect, it } from 'bun:test';
-import { Wallet } from 'ethers';
+import { Wallet, getIcapAddress } from 'ethers';
 import { Express } from 'express';
 import request from 'supertest';
 
@@ -23,7 +24,47 @@ describe('/authentication', () => {
       // act
       const response = await request(app)
         .post(url)
+        .set('Authorization', createTestClientBasicAuthenticationToken())
         .send({ publicAddress })
+        .expect(200);
+
+      // assert
+      const { body }: { body: AuthenticationBeginResponse } = response;
+      expect(body).toMatchObject({
+        publicAddress,
+        nonce: expect.any(String),
+      });
+    });
+
+    it('should return 200 OK and convert ICAP address to checksummed address', async () => {
+      // arrange
+      const { address: publicAddress } = Wallet.createRandom();
+      const ICAPAddress = getIcapAddress(publicAddress);
+
+      // act
+      const response = await request(app)
+        .post(url)
+        .set('Authorization', createTestClientBasicAuthenticationToken())
+        .send({ publicAddress: ICAPAddress })
+        .expect(200);
+
+      // assert
+      const { body }: { body: AuthenticationBeginResponse } = response;
+      expect(body).toMatchObject({
+        publicAddress,
+        nonce: expect.any(String),
+      });
+    });
+
+    it('should return 200 OK and convert lowercase address to checksummed address', async () => {
+      // arrange
+      const { address: publicAddress } = Wallet.createRandom();
+
+      // act
+      const response = await request(app)
+        .post(url)
+        .set('Authorization', createTestClientBasicAuthenticationToken())
+        .send({ publicAddress: publicAddress.toLocaleLowerCase() })
         .expect(200);
 
       // assert
@@ -41,19 +82,119 @@ describe('/authentication', () => {
       // act
       const response: ValidationProblem = await request(app)
         .post(url)
+        .set('Authorization', createTestClientBasicAuthenticationToken())
         .send({ publicAddress })
         .expect(400)
         .then((res) => res.body);
 
       // assert
+      expect(response).not.toBeNil();
       expect(response.status).toBe(400);
-      expect(response.errors).toHaveLength(1);
-      expect(
-        response.errors?.every(
-          (e) =>
-            e.name === 'publicAddress' && e.reason === 'Invalid public address',
-        ),
-      ).toBeTruthy();
+      expect(response.errors).toMatchObject([
+        {
+          name: 'publicAddress',
+          reason: 'Invalid public address',
+        },
+      ]);
+    });
+
+    it('should return 400 on invalid payload', async () => {
+      // arrange
+      const publicAddress = null;
+
+      // act
+      const response: ValidationProblem = await request(app)
+        .post(url)
+        .set('Authorization', createTestClientBasicAuthenticationToken())
+        .send({ publicAddress })
+        .expect(400)
+        .then((res) => res.body);
+
+      // assert
+      expect(response).not.toBeNil();
+      expect(response.status).toBe(400);
+      expect(response.errors).toMatchObject([
+        {
+          name: '/body/publicAddress',
+          reason: 'must be string',
+        },
+      ]);
+    });
+
+    it('should return 400 on missing authorization header', async () => {
+      // arrange
+      const publicAddress = '';
+
+      // act
+      const response: ValidationProblem = await request(app)
+        .post(url)
+        .send({ publicAddress })
+        .expect(400)
+        .then((res) => res.body);
+
+      // assert
+      expect(response).not.toBeNil();
+      expect(response.detail).toBe(
+        `request/headers must have required property 'authorization'`,
+      );
+    });
+
+    it('should return 400 on missing client credentials', async () => {
+      // arrange
+      const publicAddress = '';
+
+      // act
+      const response: ValidationProblem = await request(app)
+        .post(url)
+        .set('Authorization', '')
+        .send({ publicAddress })
+        .expect(400)
+        .then((res) => res.body);
+
+      // assert
+      expect(response).not.toBeNil();
+      expect(response.detail).toBe(
+        `request/headers/authorization must NOT have fewer than 1 characters`,
+      );
+    });
+
+    it('should return 400 on invalid client auth scheme', async () => {
+      // arrange
+      const publicAddress = '';
+
+      // act
+      const response: ValidationProblem = await request(app)
+        .post(url)
+        .set('Authorization', 'Bearer boop:boop')
+        .send({ publicAddress })
+        .expect(400)
+        .then((res) => res.body);
+
+      // assert
+      expect(response).not.toBeNil();
+      expect(response.errors).toMatchObject([
+        {
+          name: 'request.headers.authorization',
+          reason: 'Invalid authorization scheme',
+        },
+      ]);
+    });
+
+    it('should return 401 on invalid client credentials', async () => {
+      // arrange
+      const publicAddress = '';
+
+      // act
+      const response: Problem = await request(app)
+        .post(url)
+        .set('Authorization', 'Basic boop:boop')
+        .send({ publicAddress })
+        .expect(401)
+        .then((res) => res.body);
+
+      // assert
+      expect(response).not.toBeNil();
+      expect(response.detail).toBe('Invalid client credentials');
     });
   });
 });
