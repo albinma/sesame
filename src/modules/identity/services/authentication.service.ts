@@ -1,4 +1,4 @@
-import { ServiceError } from '@/common/errors/service.error';
+import { ServiceError } from '@/common/errors';
 import { getAddress, isAddress } from 'ethers';
 import { generateNonce } from 'siwe';
 
