@@ -8,6 +8,9 @@ const OPEN_API_SPEC = 'data/api-doc/v1.yml';
 export const createApp = async (): Promise<Express> => {
   const app = express();
 
+  // For when the app is behind a proxy, like in a docker container or in a kubernetes cluster.
+  app.set('trust proxy', 1);
+
   app.use(json());
 
   // default route

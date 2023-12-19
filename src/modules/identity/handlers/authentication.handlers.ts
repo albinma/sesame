@@ -20,6 +20,8 @@ export const authenticationBegin = async (
   const { publicAddress, nonce } =
     $AuthenticationService.generateNonceFromPublicAddress(requestPublicAddress);
 
+  req.session.nonce = nonce;
+
   res.send({
     publicAddress,
     nonce,

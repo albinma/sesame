@@ -30,6 +30,7 @@ describe('/authentication', () => {
 
       // assert
       const { body }: { body: AuthenticationBeginResponse } = response;
+      expect(response.headers['set-cookie']).not.toBeNil();
       expect(body).toMatchObject({
         publicAddress,
         nonce: expect.any(String),
@@ -50,6 +51,7 @@ describe('/authentication', () => {
 
       // assert
       const { body }: { body: AuthenticationBeginResponse } = response;
+      expect(response.headers['set-cookie']).not.toBeNil();
       expect(body).toMatchObject({
         publicAddress,
         nonce: expect.any(String),
@@ -69,6 +71,7 @@ describe('/authentication', () => {
 
       // assert
       const { body }: { body: AuthenticationBeginResponse } = response;
+      expect(response.headers['set-cookie']).not.toBeNil();
       expect(body).toMatchObject({
         publicAddress,
         nonce: expect.any(String),
