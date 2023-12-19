@@ -7,15 +7,16 @@ import { Wallet, getIcapAddress } from 'ethers';
 import { Express } from 'express';
 import request from 'supertest';
 
-describe('/authentication', () => {
+describe('api/v1/authentication', () => {
   let app: Express;
+  const baseUrl = '/api/v1/authentication';
 
   beforeAll(async () => {
     app = await createApp();
   });
 
   describe('POST /begin', () => {
-    const url = '/api/v1/authentication/begin';
+    const url = `${baseUrl}/begin`;
 
     it('should return 200 OK', async () => {
       // arrange
