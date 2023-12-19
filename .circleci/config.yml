@@ -33,11 +33,11 @@ jobs:
 
       - run:
           name: Check formatting
-          command: bun run format
+          command: bun format
 
       - run:
           name: Check linting
-          command: bun run lint
+          command: bun lint
 
   build-and-test:
     docker:
@@ -64,7 +64,7 @@ jobs:
 
       - run:
           name: Create env vars
-          command: bun run copy:env
+          command: bun copy:env
 
       - run:
           name: Wait for postgres to be ready
@@ -76,7 +76,7 @@ jobs:
 
       - run:
           name: Run tests
-          command: bun run test:ci
+          command: bun test:ci
 
 workflows:
   main:

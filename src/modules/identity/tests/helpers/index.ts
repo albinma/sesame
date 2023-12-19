@@ -1,4 +1,4 @@
-import { CLIENT_CONFIGURATION, CLIENT_NAMES } from '@/common/configs';
+import { CLIENT_CONFIG, CLIENT_NAMES } from '@/common/configs';
 
 export const createTestClientBasicAuthenticationToken = (): string =>
   createClientBasicAuthenticationToken('test');
@@ -6,7 +6,7 @@ export const createTestClientBasicAuthenticationToken = (): string =>
 export const createClientBasicAuthenticationToken = (
   name: CLIENT_NAMES,
 ): string => {
-  const client = CLIENT_CONFIGURATION.allowedClients.get('test');
+  const client = CLIENT_CONFIG.allowedClients.get('test');
 
   if (client) {
     const { clientId, clientSecret } = client;

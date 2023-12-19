@@ -5,7 +5,7 @@
   "scripts": {
     "start": "bun src/index.ts",
     "dev": "bun --inspect src/index.ts",
-    "test:ci": "NODE_ENV=test TZ=UTC LOG_LEVEL=debug bun test --preload ./tests/setup.ts --coverage",
+    "test:ci": "NODE_ENV=test TZ=UTC LOG_LEVEL=error LOG_PRINT_PRETTY=true bun test --preload ./tests/setup.ts",
     "copy:env": "cp .env.example .env",
     "format": "prettier --check --ignore-path .gitignore .",
     "format:fix": "prettier --write --ignore-path .gitignore .",
@@ -21,6 +21,8 @@
     "express-openapi-validator": "5.1.2",
     "express-session": "1.17.3",
     "joi": "17.11.0",
+    "pino": "8.17.1",
+    "pino-http": "8.6.0",
     "siwe": "2.1.4"
   },
   "devDependencies": {
@@ -36,6 +38,7 @@
     "husky": "8.0.3",
     "lint-staged": "15.2.0",
     "openapi-typescript": "6.7.3",
+    "pino-pretty": "10.3.0",
     "prettier": "3.1.1",
     "prettier-plugin-organize-imports": "3.2.4",
     "supertest": "6.3.3"

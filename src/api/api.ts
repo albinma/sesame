@@ -1,7 +1,9 @@
+import { logger } from '@/common/initializers/logger';
 import { errorHandlerMiddleware } from '@/common/middlewares';
 import { createIdentityApi } from '@/modules/identity/api';
 import express, { Express, json } from 'express';
 import { middleware as OpenApiValidatorMiddlware } from 'express-openapi-validator';
+import pinoHttp from 'pino-http';
 
 const OPEN_API_SPEC = 'data/api-doc/v1.yml';
 
@@ -10,6 +12,21 @@ export const createApp = async (): Promise<Express> => {
 
   // For when the app is behind a proxy, like in a docker container or in a kubernetes cluster.
   app.set('trust proxy', 1);
+
+  // Generate request id that will correlate all logs for a single request.
+  app.use((req, res, next) => {
+    req.id = crypto.randomUUID();
+    res.set('X-Request-Id', req.id);
+    next();
+  });
+
+  app.use(
+    pinoHttp({
+      logger,
+      quietReqLogger: true,
+      genReqId: (req) => req.id,
+    }),
+  );
 
   app.use(json());
 

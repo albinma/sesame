@@ -38,10 +38,21 @@ const schema = joi.object({
       }),
     })
     .required(),
+  logging: joi.object({
+    level: joi
+      .string()
+      .valid('fatal', 'error', 'warn', 'info', 'debug', 'trace')
+      .required()
+      .default('debug'),
+    printPretty: joi.boolean().required().default(false),
+  }),
 });
 
 export const APP_CONFIG = {
-  environment: String(Bun.env.NODE_ENV),
+  environment: String(Bun.env.NODE_ENV) as
+    | 'development'
+    | 'production'
+    | 'test',
   timezone: String(Bun.env.TZ),
   http: {
     port: Number(Bun.env.HTTP_PORT),
@@ -62,6 +73,16 @@ export const APP_CONFIG = {
         maxAgeSeconds: Number(Bun.env.HTTP_SESSION_COOKIE_MAX_AGE_SECONDS),
       },
     },
+  },
+  logging: {
+    level: String(Bun.env.LOG_LEVEL) as
+      | 'fatal'
+      | 'error'
+      | 'warn'
+      | 'info'
+      | 'debug'
+      | 'trace',
+    printPretty: toBoolean(Bun.env.LOG_PRINT_PRETTY),
   },
 };
 

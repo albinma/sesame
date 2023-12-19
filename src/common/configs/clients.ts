@@ -9,7 +9,7 @@ type ClientConfiguration = {
 
 export type CLIENT_NAMES = 'test';
 
-export const CLIENT_CONFIGURATION: ClientConfiguration = {
+export const CLIENT_CONFIG: ClientConfiguration = {
   allowedClients: new Map<CLIENT_NAMES, Client>([
     [
       'test',

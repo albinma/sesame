@@ -1,4 +1,4 @@
-import { CLIENT_CONFIGURATION } from '@/common/configs';
+import { CLIENT_CONFIG } from '@/common/configs';
 import { UnauthorizedError, ValidationError } from '@/common/errors';
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 
@@ -29,7 +29,7 @@ export function clientBasicAuthenticationMiddleware(): RequestHandler {
         throw new UnauthorizedError('Invalid client credentials');
       }
 
-      const { allowedClients } = CLIENT_CONFIGURATION;
+      const { allowedClients } = CLIENT_CONFIG;
       const inAllowedClients = Array.from(allowedClients.values()).some(
         (c) => c.clientId === clientId && c.clientSecret === clientSecret,
       );
