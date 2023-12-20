@@ -72,7 +72,7 @@ jobs:
 
       - run:
           name: Migrate database
-          command: bunx prisma migrate dev
+          command: bun x prisma migrate dev
 
       - run:
           name: Run tests
