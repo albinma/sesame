@@ -64,15 +64,15 @@ jobs:
 
       - run:
           name: Create env vars
-          command: bun copy:env
+          command: bun env:copy
 
       - run:
           name: Wait for postgres to be ready
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
-      # - run:
-      #     name: Migrate database
-      #     command: bun x prisma migrate dev
+      - run:
+          name: Migrate database
+          command: bunx prisma migrate dev
 
       - run:
           name: Run tests

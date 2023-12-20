@@ -23,6 +23,16 @@ const schema = joi.object({
     .valid('development', 'production', 'test')
     .default('development'),
   timezone: joi.string().required().default('UTC'),
+
+  logging: joi.object({
+    level: joi
+      .string()
+      .valid('fatal', 'error', 'warn', 'info', 'debug', 'trace')
+      .required()
+      .default('debug'),
+    printPretty: joi.boolean().required().default(false),
+  }),
+
   http: joi
     .object({
       port: joi.number().required().default(8080),
@@ -38,14 +48,16 @@ const schema = joi.object({
       }),
     })
     .required(),
-  logging: joi.object({
-    level: joi
-      .string()
-      .valid('fatal', 'error', 'warn', 'info', 'debug', 'trace')
-      .required()
-      .default('debug'),
-    printPretty: joi.boolean().required().default(false),
-  }),
+
+  database: joi
+    .object({
+      host: joi.string().required().default('localhost'),
+      database: joi.string().required(),
+      port: joi.number().required(),
+      username: joi.string().required(),
+      password: joi.string().required(),
+    })
+    .default(),
 });
 
 export const APP_CONFIG = {
@@ -54,6 +66,18 @@ export const APP_CONFIG = {
     | 'production'
     | 'test',
   timezone: String(Bun.env.TZ),
+
+  logging: {
+    level: String(Bun.env.LOG_LEVEL) as
+      | 'fatal'
+      | 'error'
+      | 'warn'
+      | 'info'
+      | 'debug'
+      | 'trace',
+    printPretty: toBoolean(Bun.env.LOG_PRINT_PRETTY),
+  },
+
   http: {
     port: Number(Bun.env.HTTP_PORT),
     session: {
@@ -74,15 +98,13 @@ export const APP_CONFIG = {
       },
     },
   },
-  logging: {
-    level: String(Bun.env.LOG_LEVEL) as
-      | 'fatal'
-      | 'error'
-      | 'warn'
-      | 'info'
-      | 'debug'
-      | 'trace',
-    printPretty: toBoolean(Bun.env.LOG_PRINT_PRETTY),
+
+  database: {
+    host: String(Bun.env.DATABASE_HOST),
+    database: String(Bun.env.DATABASE_NAME),
+    port: Number(Bun.env.DATABASE_PORT),
+    username: String(Bun.env.DATABASE_USER),
+    password: String(Bun.env.DATABASE_PASSWORD),
   },
 };
 

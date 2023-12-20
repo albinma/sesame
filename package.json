@@ -6,14 +6,14 @@
     "start": "bun src/index.ts",
     "dev": "bun --inspect src/index.ts",
     "test:ci": "NODE_ENV=test TZ=UTC LOG_LEVEL=error LOG_PRINT_PRETTY=true bun test --preload ./tests/setup.ts",
-    "copy:env": "cp .env.example .env",
+    "env:copy": "cp .env.example .env",
     "format": "prettier --check --ignore-path .gitignore .",
     "format:fix": "prettier --write --ignore-path .gitignore .",
     "lint": "eslint src",
     "lint:fix": "eslint --fix src",
     "outdated": "bunx npm-check-updates --interactive --format group",
     "gen:openapi": "openapi-typescript data/api-doc/v1.yml -o src/api/types/openapi.d.ts --empty-objects-unknown && prettier --write src/api/types/openapi.d.ts",
-    "prepare": "husky install"
+    "prepare": "husky install && bun prisma generate"
   },
   "dependencies": {
     "compression": "1.7.4",
@@ -45,6 +45,7 @@
     "pino-pretty": "10.3.0",
     "prettier": "3.1.1",
     "prettier-plugin-organize-imports": "3.2.4",
+    "prisma": "5.7.1",
     "supertest": "6.3.3"
   },
   "peerDependencies": {
